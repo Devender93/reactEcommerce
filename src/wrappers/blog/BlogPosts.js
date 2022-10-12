@@ -8,7 +8,7 @@ const BlogPosts = () => {
   useEffect(()=>{
 const dataget=async()=>{
   try {
-   const response= await fetch(`https://newsapi.org/v2/everything?q=tesla&from=2022-09-12&sortBy=publishedAt&apiKey=6c724583b6e74a349f7e512e42fa41a4`);
+   const response= await fetch(`https://newsapi.org/v2/top-headlines?sources=google-news-in&apiKey=6c724583b6e74a349f7e512e42fa41a4`);
    if(!response.ok){
     throw new Error(
       `This is an HTTP error: The status is ${response.status}`
