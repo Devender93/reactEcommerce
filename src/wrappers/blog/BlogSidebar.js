@@ -1,7 +1,34 @@
-import React from "react";
+import React, {useState,useEffect}from "react";
 import { Link } from "react-router-dom";
 
 const BlogSidebar = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+   const getdata= async()=>{
+    try {
+      const response= await fetch(`https://newsapi.org/v2/top-headlines?sources=google-news-in&apiKey=6c724583b6e74a349f7e512e42fa41a4`);
+      if(!response.ok){
+        throw new Error(`This is an HTTP Error  ${response.message}`);
+      }
+      let realdata=  await response.json();
+      setData(realdata);
+      setError(null);
+      
+    } catch (error) {
+      setError(error.message);
+      setData(null);
+      
+    }
+    finally{
+      setLoading(false);
+    }
+   }
+   getdata()
+
+  }, [])
+  
   return (
     <div className="sidebar-style">
       <div className="sidebar-widget">
@@ -16,88 +43,36 @@ const BlogSidebar = () => {
         </div>
       </div>
       <div className="sidebar-widget">
-        <h4 className="pro-sidebar-title">Recent Projects </h4>
+        <h4 className="pro-sidebar-title">Recent Blog </h4>
         <div className="sidebar-project-wrap mt-30">
+        {loading && <div>A moment please...</div>}
+        {error && (
+        <div>{`There is a problem fetching the post data - ${error}`}</div>
+      )}
+        {data &&
+          data.articles.map(({ title,urlToImage,url}) => (
           <div className="single-sidebar-blog">
             <div className="sidebar-blog-img">
-              <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
+              <Link to={url}>
                 <img
                   src={
-                    process.env.PUBLIC_URL + "/assets/img/blog/sidebar-1.jpg"
+                    urlToImage
                   }
                   alt=""
                 />
               </Link>
             </div>
             <div className="sidebar-blog-content">
-              <span>Photography</span>
+              <span>{title}</span>
               <h4>
-                <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
-                  T- Shart And Jeans
-                </Link>
+                
               </h4>
             </div>
           </div>
-          <div className="single-sidebar-blog">
-            <div className="sidebar-blog-img">
-              <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
-                <img
-                  src={
-                    process.env.PUBLIC_URL + "/assets/img/blog/sidebar-2.jpg"
-                  }
-                  alt=""
-                />
-              </Link>
-            </div>
-            <div className="sidebar-blog-content">
-              <span>Branding</span>
-              <h4>
-                <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
-                  T- Shart And Jeans
-                </Link>
-              </h4>
-            </div>
-          </div>
-          <div className="single-sidebar-blog">
-            <div className="sidebar-blog-img">
-              <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
-                <img
-                  src={
-                    process.env.PUBLIC_URL + "/assets/img/blog/sidebar-3.jpg"
-                  }
-                  alt=""
-                />
-              </Link>
-            </div>
-            <div className="sidebar-blog-content">
-              <span>Design</span>
-              <h4>
-                <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
-                  T- Shart And Jeans
-                </Link>
-              </h4>
-            </div>
-          </div>
-          <div className="single-sidebar-blog">
-            <div className="sidebar-blog-img">
-              <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
-                <img
-                  src={
-                    process.env.PUBLIC_URL + "/assets/img/blog/sidebar-2.jpg"
-                  }
-                  alt=""
-                />
-              </Link>
-            </div>
-            <div className="sidebar-blog-content">
-              <span>Photography</span>
-              <h4>
-                <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
-                  T- Shart And Jeans
-                </Link>
-              </h4>
-            </div>
-          </div>
+ ))}
+         
+        
+         
         </div>
       </div>
       <div className="sidebar-widget mt-35">

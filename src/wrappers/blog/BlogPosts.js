@@ -37,7 +37,7 @@ dataget()
         <div>{`There is a problem fetching the post data - ${error}`}</div>
       )}
        {data &&
-          data.articles.map(({ title,description,urlToImage,publishedAt}) => (
+          data.articles.map(({ title,description,urlToImage,publishedAt,url}) => (
       <div className="col-lg-6 col-md-6 col-sm-12">
       
         <div className="blog-wrap-2 mb-30">
@@ -52,7 +52,7 @@ dataget()
           <div className="blog-content-2">
             <div className="blog-meta-2">
               <ul>
-                <li>publishedAt</li>
+                <li>{publishedAt}</li>
                 <li>
                   <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
                     4 <i className="fa fa-comments-o" />
