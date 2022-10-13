@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import MetaTags from "react-meta-tags";
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
 import LayoutOne from "../../layouts/LayoutOne";
@@ -7,12 +7,26 @@ import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import LocationMap from "../../components/contact/LocationMap";
 
 const Contact = ({ location }) => {
-  const { pathname } = location;
-
+const { pathname } = location;
+const [name, setName]=useState('')
+const [email,setEmail]=useState('')
+const [subject,setSubject]=useState('')
+const [message, setMessage]=useState('')
+const [submit,setSubmit]=useState(false)
+const handelsubmit=(e)=>{
+  e.preventDefault()
+  let data={
+    name,
+    email,
+    subject,
+    message
+  }
+ // console.log(data)
+}
   return (
     <Fragment>
       <MetaTags>
-        <title>Flone | Contact</title>
+        <title> Contact</title>
         <meta
           name="description"
           content="Contact of flone react minimalist eCommerce template."
@@ -108,25 +122,25 @@ const Contact = ({ location }) => {
                   <form className="contact-form-style">
                     <div className="row">
                       <div className="col-lg-6">
-                        <input name="name" placeholder="Name*" type="text" />
+                        <input name="name" placeholder="Name*" type="text" onChange={(e)=>{setName(e.target.value)}} />
                       </div>
                       <div className="col-lg-6">
-                        <input name="email" placeholder="Email*" type="email" />
+                        <input name="email" placeholder="Email*" type="email"  onChange={(e)=>{setEmail(e.target.value)}}/>
                       </div>
                       <div className="col-lg-12">
                         <input
                           name="subject"
                           placeholder="Subject*"
-                          type="text"
+                          type="text" onChange={(e)=>{setSubject(e.target.value)}}
                         />
                       </div>
                       <div className="col-lg-12">
                         <textarea
                           name="message"
                           placeholder="Your Message*"
-                          defaultValue={""}
+                          defaultValue={""}  onChange={(e)=>{setMessage(e.target.value)}}
                         />
-                        <button className="submit" type="submit">
+                        <button className="submit" type="submit" onClick={handelsubmit}>
                           SEND
                         </button>
                       </div>
